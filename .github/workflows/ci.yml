@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch: 
 
+env:
+  OTEL_EXPORTER_OTLP_ENDPOINT: https://logfire-us.pydantic.dev
+  OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+  OTEL_SERVICE_NAME: iron-proxy
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -20,11 +25,6 @@ jobs:
         with:
           egress-rules: egress-rules.yaml
           warn: "false"
-        env:
-          OTEL_EXPORTER_OTLP_ENDPOINT: https://logfire-us.pydantic.dev
-          OTEL_EXPORTER_OTLP_HEADERS: "Authorization=${{ secrets.LOGFIRE_SECRET }}"
-          OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
-          OTEL_SERVICE_NAME: iron-proxy
 
       - run: uv sync
       - run: uv run pytest -v
