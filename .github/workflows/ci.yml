@@ -52,3 +52,7 @@ jobs:
         if: always()
         with:
           show-full-paths: "true"
+
+      - name: Dump proxy logs
+        if: always()
+        run: cat /var/log/iron-proxy.log
